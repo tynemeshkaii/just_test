@@ -280,20 +280,22 @@
       inset: 0 0 auto 0;
       height: var(--nh);
       z-index: 900;
-      background: rgba(7,7,6,0.78);
-      backdrop-filter: blur(18px) saturate(120%);
-      -webkit-backdrop-filter: blur(18px) saturate(120%);
-      border-bottom: 1px solid var(--border);
-      transition: background var(--t);
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      transition: background var(--t), border-color var(--t);
     }
-    .nav.scrolled { background: rgba(7,7,6,0.96); }
+    .nav.scrolled {
+      background: rgba(11,11,12,0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom-color: var(--line);
+    }
     .scroll-progress {
       position: fixed;
       top: 0; left: 0;
       height: 2px;
       width: 0%;
-      background: linear-gradient(90deg, rgba(196,164,93,0.0) 0%, var(--gold) 30%, #F0D98A 60%, var(--gold) 100%);
-      box-shadow: 0 0 10px rgba(196,164,93,0.55);
+      background: var(--platinum);
       z-index: 999;
       will-change: width;
       pointer-events: none;
@@ -310,15 +312,17 @@
       height: 42px;
       width: 42px;
       object-fit: contain;
-      border-radius: 9px;
+      border-radius: var(--r);
       flex-shrink: 0;
     }
     .nav__logo-name {
       display: none;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0;
-      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bone);
       line-height: 1;
     }
     @media (min-width: 640px) { .nav__logo-name { display: block; } }
@@ -340,7 +344,7 @@
       color: var(--sub);
       transition: border-color var(--t), color var(--t), background var(--t);
     }
-    .nav__social:hover { border-color: rgba(196,164,93,0.42); color: var(--gold-h); background: var(--gold-d); }
+    .nav__social:hover { border-color: var(--platinum); color: var(--bone); background: var(--platinum-d); }
     .nav__contact {
       display: flex;
       flex-direction: column;
@@ -356,7 +360,7 @@
       display: flex;
       align-items: center;
     }
-    .nav__phone:hover { color: var(--gold); }
+    .nav__phone:hover { color: var(--platinum); }
     .nav__hours { font-size: 12px; color: var(--muted); }
     /* Mobile: hide hours, compact phone */
     @media (max-width: 767px) {
