@@ -3,7 +3,7 @@
       --ink:#0B0B0C; --ink-2:#141416; --ink-3:#1C1C1E;
       --bone:#ECE9E2; --bone-2:#DCD8CF;
       --grey:#8A8884; --sub:rgba(236,233,226,.60); --muted:rgba(236,233,226,.34);
-      --platinum:#B7AE9C; --platinum-d:rgba(183,174,156,.14);
+      --platinum:#B7AE9C; --platinum-d:rgba(183,174,156,.14); --platinum-rgb:183,174,156;
       --line:rgba(236,233,226,.16); --line-ink:rgba(11,11,12,.14);
       --text:#ECE9E2;
       --font:'Inter',system-ui,-apple-system,sans-serif;
@@ -30,6 +30,7 @@
     button { font-family: var(--font); cursor: pointer; }
     img { display: block; max-width: 100%; }
     [inert] { pointer-events: none; }
+    [hidden] { display: none !important; }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -157,7 +158,7 @@
     .section--surface {
       background:
         radial-gradient(ellipse 55% 35% at 88% 12%, rgba(42,84,128,0.08) 0%, transparent 55%),
-        radial-gradient(ellipse 35% 45% at 8% 88%, rgba(196,164,93,0.035) 0%, transparent 58%),
+        radial-gradient(ellipse 35% 45% at 8% 88%, rgba(var(--platinum-rgb),0.035) 0%, transparent 58%),
         var(--ink-2);
     }
 
@@ -165,42 +166,42 @@
     #cases {
       background:
         radial-gradient(ellipse 60% 40% at 80% 15%, rgba(42,84,128,0.09) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 50% at 10% 85%, rgba(196,164,93,0.04) 0%, transparent 58%),
+        radial-gradient(ellipse 40% 50% at 10% 85%, rgba(var(--platinum-rgb),0.04) 0%, transparent 58%),
         var(--ink-2);
     }
     #gallery {
       background:
         radial-gradient(ellipse 50% 45% at 15% 20%, rgba(42,84,128,0.06) 0%, transparent 55%),
-        radial-gradient(ellipse 45% 35% at 85% 80%, rgba(196,164,93,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse 45% 35% at 85% 80%, rgba(var(--platinum-rgb),0.04) 0%, transparent 50%),
         var(--ink);
     }
     #reviews {
       background:
-        radial-gradient(ellipse 55% 40% at 75% 10%, rgba(196,164,93,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse 55% 40% at 75% 10%, rgba(var(--platinum-rgb),0.05) 0%, transparent 50%),
         radial-gradient(ellipse 40% 45% at 20% 90%, rgba(42,84,128,0.07) 0%, transparent 55%),
         var(--ink-2);
     }
     #details {
       background:
         radial-gradient(ellipse 50% 40% at 85% 25%, rgba(42,84,128,0.07) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 35% at 10% 75%, rgba(196,164,93,0.035) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 35% at 10% 75%, rgba(var(--platinum-rgb),0.035) 0%, transparent 50%),
         var(--ink);
     }
     #why-us {
       background:
-        radial-gradient(ellipse 45% 50% at 20% 15%, rgba(196,164,93,0.045) 0%, transparent 50%),
+        radial-gradient(ellipse 45% 50% at 20% 15%, rgba(var(--platinum-rgb),0.045) 0%, transparent 50%),
         radial-gradient(ellipse 50% 40% at 80% 85%, rgba(42,84,128,0.06) 0%, transparent 55%),
         var(--ink);
     }
     #faq {
       background:
         radial-gradient(ellipse 50% 35% at 90% 20%, rgba(42,84,128,0.08) 0%, transparent 55%),
-        radial-gradient(ellipse 45% 45% at 5% 80%, rgba(196,164,93,0.04) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 45% at 5% 80%, rgba(var(--platinum-rgb),0.04) 0%, transparent 55%),
         var(--ink-2);
     }
     #process {
       background:
-        radial-gradient(ellipse 55% 40% at 30% 10%, rgba(196,164,93,0.045) 0%, transparent 50%),
+        radial-gradient(ellipse 55% 40% at 30% 10%, rgba(var(--platinum-rgb),0.045) 0%, transparent 50%),
         radial-gradient(ellipse 45% 40% at 75% 90%, rgba(42,84,128,0.07) 0%, transparent 55%),
         var(--ink-2);
     }
@@ -229,7 +230,7 @@
     .s-title {
       font-family: var(--font-display);
       font-size: clamp(28px, 3.8vw, 44px);
-      font-weight: 900;
+      font-weight: 300;
       letter-spacing: -0.02em;
       line-height: 1.1;
       margin-bottom: 20px;
@@ -446,7 +447,7 @@
       width: min(320px, 85vw);
       height: 100%;
       background:
-        radial-gradient(ellipse 80% 50% at 90% 10%, rgba(196,164,93,0.04), transparent 60%),
+        radial-gradient(ellipse 80% 50% at 90% 10%, rgba(var(--platinum-rgb),0.04), transparent 60%),
         var(--ink);
       border-left: 1px solid var(--line);
       z-index: 960;
@@ -1003,8 +1004,8 @@
       gap: 8px;
       padding: 12px 24px;
       background: transparent;
-      border: 1.5px solid rgba(196,164,93,0.35);
-      border-radius: 999px;
+      border: 1.5px solid rgba(var(--platinum-rgb),0.35);
+      border-radius: var(--r);
       color: var(--platinum);
       font-size: 14px;
       font-weight: 600;
@@ -1015,7 +1016,7 @@
     }
     .g-viewall:hover {
       border-color: var(--platinum);
-      background: rgba(196,164,93,0.10);
+      background: rgba(var(--platinum-rgb),0.10);
       color: var(--platinum);
     }
     .g-viewall svg { transition: transform var(--t); }
@@ -1072,7 +1073,7 @@
     .catalog-title {
       font-family: var(--font-display);
       font-size: 18px;
-      font-weight: 900;
+      font-weight: 300;
       color: var(--text);
       letter-spacing: -0.01em;
     }
@@ -1086,11 +1087,11 @@
       align-items: center;
       gap: 5px;
       padding: 4px 11px;
-      background: linear-gradient(135deg, rgba(196,164,93,0.22), rgba(196,164,93,0.10));
-      border: 1px solid rgba(196,164,93,0.35);
-      border-radius: 50px;
+      background: linear-gradient(135deg, rgba(var(--platinum-rgb),0.22), rgba(var(--platinum-rgb),0.10));
+      border: 1px solid rgba(var(--platinum-rgb),0.35);
+      border-radius: var(--r);
       font-size: 11px;
-      font-weight: 800;
+      font-weight: 700;
       color: var(--platinum);
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -1108,7 +1109,7 @@
     }
     .catalog-filter {
       padding: 6px 14px;
-      border-radius: 50px;
+      border-radius: var(--r);
       border: 1.5px solid transparent;
       background: transparent;
       color: var(--sub);
@@ -1128,7 +1129,7 @@
     }
     .catalog-filter.active {
       background: var(--platinum-d);
-      border-color: rgba(196,164,93,0.40);
+      border-color: rgba(var(--platinum-rgb),0.40);
       color: var(--platinum);
     }
     .catalog-filter__count {
@@ -1194,9 +1195,9 @@
       display: none;
     }
     .catalog-card:hover {
-      border-color: rgba(196,164,93,0.30);
+      border-color: rgba(var(--platinum-rgb),0.30);
       transform: translateY(-3px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(196,164,93,0.08);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.50), 0 0 0 1px rgba(var(--platinum-rgb),0.08);
     }
 
     /* Photo area */
@@ -1335,7 +1336,7 @@
       transform: translateX(-50%);
       z-index: 2;
       padding: 6px 14px;
-      border-radius: 50px;
+      border-radius: var(--r);
       background: rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.14);
       color: rgba(255,255,255,0.9);
@@ -1396,9 +1397,9 @@
       left: 8px;
       z-index: 2;
       padding: 3px 9px;
-      border-radius: 50px;
+      border-radius: var(--r);
       font-size: 10px;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       backdrop-filter: blur(10px);
@@ -1428,10 +1429,10 @@
       right: 8px;
       z-index: 2;
       padding: 3px 8px;
-      border-radius: 50px;
+      border-radius: var(--r);
       font-size: 10px;
-      font-weight: 800;
-      background: rgba(196,164,93,0.88);
+      font-weight: 700;
+      background: rgba(var(--platinum-rgb),0.88);
       color: var(--ink);
       letter-spacing: 0.02em;
     }
@@ -1474,7 +1475,7 @@
     }
     .catalog-price {
       font-size: 16px;
-      font-weight: 800;
+      font-weight: 700;
       color: var(--text);
       letter-spacing: -0.02em;
       line-height: 1;
@@ -1503,7 +1504,7 @@
       font-size: 12px;
       font-weight: 700;
       border-radius: 0 0 var(--r) var(--r);
-      background: rgba(196,164,93,0.12);
+      background: rgba(var(--platinum-rgb),0.12);
       border: none;
       border-top: 1px solid var(--line);
       color: var(--platinum);
@@ -1511,7 +1512,7 @@
       transition: background var(--t), color var(--t);
     }
     .catalog-card .btn:hover {
-      background: rgba(196,164,93,0.22);
+      background: rgba(var(--platinum-rgb),0.22);
       color: var(--platinum);
       transform: none;
     }
@@ -1561,7 +1562,7 @@
       background: rgba(10,14,20,0.98);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(196,164,93,0.25);
+      border-top: 1px solid rgba(var(--platinum-rgb),0.25);
       padding: 0;
       max-height: 0;
       overflow: hidden;
@@ -1569,6 +1570,7 @@
     }
     .lead-panel.is-open {
       max-height: 500px;
+      overflow-y: auto;
     }
     .lead-panel.is-standalone {
       position: fixed;
@@ -1596,7 +1598,7 @@
       background: rgba(10,14,20,0.98);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(196,164,93,0.25);
+      border-top: 1px solid rgba(var(--platinum-rgb),0.25);
       border-radius: 16px 16px 0 0;
       width: 100%;
       max-width: 560px;
@@ -1609,7 +1611,7 @@
       }
       .lead-panel.is-standalone .lead-panel__inner {
         border-radius: 16px;
-        border: 1px solid rgba(196,164,93,0.25);
+        border: 1px solid rgba(var(--platinum-rgb),0.25);
         max-width: 520px;
         padding: 32px 36px 36px;
       }
@@ -1742,7 +1744,7 @@
       aspect-ratio: 4/3;
       cursor: col-resize;
       user-select: none;
-      touch-action: none;
+      touch-action: pan-y;
     }
     .compare__before,
     .compare__after {
@@ -2034,7 +2036,7 @@
       transform: translateY(-50%);
       width: 1px;
       height: 38px;
-      background: linear-gradient(to bottom, transparent, rgba(196,164,93,0.45) 50%, transparent);
+      background: linear-gradient(to bottom, transparent, rgba(var(--platinum-rgb),0.45) 50%, transparent);
     }
     .footer__socials {
       display: flex;
@@ -2046,8 +2048,8 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: rgba(196,164,93,0.08);
-      border: 1px solid rgba(196,164,93,0.22);
+      background: rgba(var(--platinum-rgb),0.08);
+      border: 1px solid rgba(var(--platinum-rgb),0.22);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -2056,9 +2058,9 @@
     }
     .social-btn:hover {
       border-color: var(--platinum);
-      background: rgba(196,164,93,0.18);
+      background: rgba(var(--platinum-rgb),0.18);
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px -8px rgba(196,164,93,0.45);
+      box-shadow: 0 8px 24px -8px rgba(var(--platinum-rgb),0.45);
     }
 
     /* Column titles */
@@ -2127,7 +2129,6 @@
     .footer__contact-item--address svg { margin-top: 3px; }
 
     /* Map column */
-    .footer__map-col {}
     .footer__map {
       border-radius: var(--r);
       overflow: hidden;
@@ -2252,7 +2253,7 @@
       position: absolute;
       inset: auto 0 0 0;
       height: 70%;
-      background: radial-gradient(ellipse 70% 110% at 50% 10%, rgba(196,164,93,0.045) 0%, transparent 62%);
+      background: radial-gradient(ellipse 70% 110% at 50% 10%, rgba(var(--platinum-rgb),0.045) 0%, transparent 62%);
       pointer-events: none;
     }
     .midcta__inner {
@@ -2263,7 +2264,7 @@
       gap: 24px;
       align-items: center;
       padding-top: 30px;
-      border-top: 1px solid rgba(196,164,93,0.24);
+      border-top: 1px solid rgba(var(--platinum-rgb),0.24);
     }
     .midcta__inner::before {
       content: '';
@@ -2280,7 +2281,7 @@
     .midcta__eyebrow {
       display: block;
       font-size: 11px;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--platinum);
@@ -2289,7 +2290,7 @@
     .midcta__text {
       font-family: var(--font-display);
       font-size: clamp(22px, 2.7vw, 32px);
-      font-weight: 900;
+      font-weight: 300;
       letter-spacing: -0.02em;
       line-height: 1.15;
       margin: 0;
@@ -2313,7 +2314,7 @@
       justify-content: center;
       min-width: 290px;
       padding: 14px 24px;
-      border-radius: 999px;
+      border-radius: var(--r);
     }
     .midcta__note {
       margin: 0;
@@ -2547,6 +2548,7 @@
     .brief__choices.has-error { animation: shake 0.4s ease; }
     .brief__choices.has-error .brief__choice { border-color: rgba(220,80,80,0.45); }
     .brief__choice {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 12px;

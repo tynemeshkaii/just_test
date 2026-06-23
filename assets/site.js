@@ -308,6 +308,17 @@
       });
     });
 
+    /* Recompute expanded panel heights on resize (copy can re-wrap) */
+    let revResizeRaf;
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(revResizeRaf);
+      revResizeRaf = requestAnimationFrame(() => {
+        track.querySelectorAll('.rev-slide.expanded .rev-full-panel').forEach(panel => {
+          panel.style.maxHeight = panel.querySelector('.rev-full-panel-inner').scrollHeight + 'px';
+        });
+      });
+    }, { passive: true });
+
     /* Keyboard navigation */
     const region = track.closest('[role="region"]');
     region.addEventListener('keydown', e => {
