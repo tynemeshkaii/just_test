@@ -1963,28 +1963,18 @@
 
     /* ─── 9. FOOTER ─────────────────────────────── */
     .footer {
-      background:
-        radial-gradient(ellipse 50% 30% at 50% 0%, rgba(42,84,128,0.05) 0%, transparent 55%),
-        var(--bg);
-      border-top: none;
+      background: var(--ink);
+      color: var(--bone);
+      border-top: 1px solid var(--line);
       padding: 0 0 40px;
       position: relative;
-    }
-    .footer::before {
-      content: '';
-      position: absolute;
-      top: -1px; left: 0; right: 0;
-      height: 100px;
-      pointer-events: none;
-      z-index: 0;
-      background: linear-gradient(to bottom, var(--bg-surface) 0%, transparent 100%);
     }
     .footer > .wrap::before {
       content: '';
       display: block;
       height: 1px;
       margin-bottom: 64px;
-      background: linear-gradient(90deg, transparent 0%, rgba(196,164,93,0.13) 20%, rgba(196,164,93,0.48) 50%, rgba(196,164,93,0.13) 80%, transparent 100%);
+      background: var(--line);
     }
     .footer > .wrap { padding-top: 0; }
 
@@ -2065,13 +2055,14 @@
 
     /* Column titles */
     .footer__col-title {
+      font-family: var(--font-mono);
       font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.20em;
+      font-weight: 400;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--grey);
       margin-bottom: 14px;
-      opacity: 0.75;
+      opacity: 1;
     }
 
     /* Nav links — 2-column compact grid */
@@ -2088,7 +2079,7 @@
       transition: color 0.2s ease, transform 0.2s ease;
       display: inline-block;
     }
-    .footer__nav a:hover { color: var(--gold); transform: translateX(3px); }
+    .footer__nav a:hover { color: var(--bone); transform: translateX(3px); }
 
     /* Contact column — compact list */
     .footer__contact-list {
@@ -2108,21 +2099,21 @@
     }
     .footer__contact-item svg {
       flex-shrink: 0;
-      color: var(--gold);
+      color: var(--platinum);
       opacity: 0.75;
     }
     .footer__contact-item a {
       color: var(--sub);
       transition: color var(--t);
     }
-    .footer__contact-item a:hover { color: var(--gold); }
+    .footer__contact-item a:hover { color: var(--bone); }
     .footer__phone-link {
       font-size: 15px !important;
       font-weight: 700;
-      color: var(--text) !important;
+      color: var(--bone) !important;
       letter-spacing: 0.01em;
     }
-    .footer__phone-link:hover { color: var(--gold) !important; }
+    .footer__phone-link:hover { color: var(--platinum) !important; }
     /* Multi-line address — top-aligned icon */
     .footer__contact-item--address { align-items: flex-start; }
     .footer__contact-item--address svg { margin-top: 3px; }
@@ -2130,13 +2121,11 @@
     /* Map column */
     .footer__map-col {}
     .footer__map {
-      border-radius: var(--rmd);
+      border-radius: var(--r);
       overflow: hidden;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       aspect-ratio: 5/3;
-      background:
-        repeating-linear-gradient(45deg, rgba(196,164,93,0.04) 0 14px, transparent 14px 28px),
-        var(--bg-card);
+      background: var(--ink-2);
     }
     .footer__map iframe {
       width: 100%; height: 100%; border: none; display: block;
@@ -2148,8 +2137,8 @@
       gap: 4px;
       margin-top: 10px;
       font-size: 12px;
-      color: var(--gold);
-      opacity: 0.6;
+      color: var(--platinum);
+      opacity: 0.7;
       transition: opacity var(--t);
     }
     .footer__map-link:hover { opacity: 1; }
@@ -2167,13 +2156,13 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent 0%, rgba(196,164,93,0.11) 20%, rgba(196,164,93,0.34) 50%, rgba(196,164,93,0.11) 80%, transparent 100%);
+      background: var(--line);
     }
     .footer__cta-text {
-      font-family: var(--font-serif);
-      font-size: clamp(22px, 3vw, 30px);
-      font-weight: 900;
-      letter-spacing: -0.02em;
+      font-family: var(--font-display);
+      font-size: clamp(22px, 5vw, 30px);
+      font-weight: 300;
+      letter-spacing: -0.01em;
       margin-bottom: 8px;
     }
     .footer__cta-sub {
@@ -2199,7 +2188,7 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent 0%, rgba(196,164,93,0.08) 20%, rgba(196,164,93,0.20) 50%, rgba(196,164,93,0.08) 80%, transparent 100%);
+      background: var(--line);
     }
     .footer__legal {
       list-style: none;
@@ -2213,7 +2202,7 @@
       color: var(--muted);
       transition: color var(--t);
     }
-    .footer__legal a:hover { color: var(--gold); }
+    .footer__legal a:hover { color: var(--bone); }
     @media (min-width: 640px) {
       .footer__bottom { flex-direction: row; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding-right: 88px; }
       .footer__legal { margin: 0; }
@@ -2699,50 +2688,52 @@
     .mobile-cta__btn--wa:hover { border-color: var(--gold-h); color: var(--gold-h); }
 
     /* ─── FAQ ────────────────────────────── */
+    #faq { background: var(--bone); color: var(--ink); }
     .faq-header { margin-bottom: 52px; }
     .faq-list {
-      border: 1px solid rgba(244,238,221,0.075);
-      border-radius: var(--rlg);
+      border: 0;
+      border-radius: 0;
       overflow: hidden;
-      background: rgba(26,26,24,0.52);
+      background: none;
     }
-    .faq-item { border-bottom: 1px solid rgba(244,238,221,0.065); }
-    .faq-item:last-child { border-bottom: none; }
+    .faq-item { border-top: 1px solid var(--line-ink); }
+    .faq-item:last-child { border-bottom: 1px solid var(--line-ink); }
     .faq-q {
       width: 100%; text-align: left;
-      padding: 21px 26px;
+      padding: 22px 0;
       display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
-      background: rgba(26,26,24,0.62); color: var(--text);
-      font-size: 16px; font-weight: 600; line-height: 1.4;
-      transition: background var(--t), color var(--t);
+      background: none; color: var(--ink);
+      font-family: var(--font-display);
+      font-size: clamp(17px,4.4vw,22px); font-weight: 300; line-height: 1.25;
+      transition: color var(--t);
       border: none; cursor: pointer;
       touch-action: manipulation;
     }
-    .faq-q:hover { background: rgba(35,35,31,0.78); }
-    .faq-q:hover .faq-icon { border-color: rgba(196,164,93,0.5); color: var(--gold); }
-    .faq-q[aria-expanded="true"] { color: var(--gold-h); background: rgba(35,35,31,0.84); }
+    .faq-q:hover { background: none; color: var(--ink); }
+    .faq-q:hover .faq-icon { border-color: var(--ink); color: var(--ink); }
+    .faq-q[aria-expanded="true"] { color: var(--ink); background: none; }
     .faq-icon {
-      flex-shrink: 0; margin-top: 3px;
+      flex-shrink: 0; margin-top: 4px;
       width: 28px; height: 28px;
-      border-radius: 50%;
-      border: 1.5px solid var(--border);
+      border-radius: 0;
+      border: 1px solid var(--line-ink);
       display: flex; align-items: center; justify-content: center;
-      color: var(--sub);
-      transition: transform 0.42s cubic-bezier(0.22,1,0.36,1), border-color var(--t), color var(--t), box-shadow var(--t);
+      color: #6f6c66;
+      transition: transform 0.42s cubic-bezier(0.22,1,0.36,1), border-color var(--t), color var(--t);
     }
     .faq-q[aria-expanded="true"] .faq-icon {
       transform: rotate(135deg);
-      border-color: var(--gold);
-      color: var(--gold);
-      box-shadow: 0 0 0 4px rgba(196,164,93,0.10), 0 0 16px -4px rgba(196,164,93,0.45);
+      border-color: var(--platinum);
+      color: var(--platinum);
+      box-shadow: none;
     }
     .faq-a-wrap {
       overflow: hidden;
       max-height: 0;
       transition: max-height 0.42s ease;
-      background: rgba(35,35,31,0.72);
+      background: none;
     }
-    .faq-a p { font-size: 15px; color: var(--sub); line-height: 1.75; padding: 4px 26px 24px; }
+    .faq-a p { font-size: 15px; color: #5f5c56; line-height: 1.75; padding: 0 0 24px; }
 
     /* ─── 10. REVIEWS ──────────────────────────── */
     #reviews { background: var(--ink); color: var(--bone); }
