@@ -628,9 +628,9 @@
 
     /* ─── 3. PROOF STRIP (static credential) ────── */
     .proof-strip {
-      border-top: 1px solid var(--gold-line);
-      border-bottom: 1px solid var(--border);
-      background: rgba(20,20,18,0.45);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--ink);
     }
     .proof-strip .wrap { padding-top: 18px; padding-bottom: 18px; }
     .proof-strip__line {
@@ -644,11 +644,12 @@
     }
     .proof-strip__item {
       position: relative;
-      font-size: 13px;
-      font-weight: 500;
+      font-family: var(--font-mono);
+      font-size: clamp(10px,2.8vw,12px);
+      font-weight: 400;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--sub);
+      color: var(--grey);
       white-space: nowrap;
     }
     .proof-strip__item + .proof-strip__item::before {
@@ -659,7 +660,7 @@
       width: 3px;
       height: 3px;
       border-radius: 50%;
-      background: var(--gold);
+      background: var(--platinum);
       transform: translateY(-50%);
     }
 
