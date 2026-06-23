@@ -1775,6 +1775,9 @@
     }
 
     /* ─── 7. CASES ──────────────────────────────── */
+    #cases { background: var(--bone); color: var(--ink); }
+    #cases .section__eyebrow, #cases .u-label { color: #6f6c66; }
+    #cases .section__title, #cases h2 { color: var(--ink); }
     .cases-header { margin-bottom: 40px; }
     .cases-outer { position: relative; overflow: hidden; }
     .cases-track {
@@ -1793,8 +1796,8 @@
     /* ── Before / After comparison slider ── */
     .compare {
       position: relative;
-      border-radius: var(--rlg);
-      border: 1px solid var(--border);
+      border-radius: var(--r);
+      border: 1px solid var(--line-ink);
       overflow: hidden;
       aspect-ratio: 4/3;
       cursor: col-resize;
@@ -1815,6 +1818,7 @@
       display: block;
       pointer-events: none;
       -webkit-user-drag: none;
+      filter: grayscale(.08) contrast(1.04);
     }
     /* After panel reveals from left */
     .compare__after { clip-path: inset(0 50% 0 0); }
@@ -1839,8 +1843,8 @@
       width: 46px;
       height: 46px;
       border-radius: 50%;
-      background: var(--gold);
-      border: 2.5px solid var(--ink);
+      background: var(--bone);
+      border: 2px solid var(--ink);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1883,13 +1887,11 @@
     .compare__lbl--b::before { background: rgba(247,243,232,0.45); }
     .compare__lbl--a {
       right: 14px;
-      color: var(--gold);
-      border-left: 1px solid rgba(196,164,93,0.65);
-      box-shadow: -8px 0 24px -10px rgba(196,164,93,0.4);
+      color: var(--platinum);
+      border-left: 1px solid var(--platinum);
     }
     .compare__lbl--a::before {
-      background: var(--gold);
-      box-shadow: 0 0 8px rgba(196,164,93,0.85);
+      background: var(--platinum);
     }
     /* Hint pulse on first load */
     .compare.hint-active .compare__handle {
@@ -1899,35 +1901,39 @@
     /* Case text */
     .case-tag {
       display: inline-block;
-      padding: 5px 14px;
-      background: var(--gold-d2);
-      border: 1px solid rgba(196,164,93,0.28);
-      border-radius: 50px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.08em;
+      padding: 0;
+      background: none;
+      border: 0;
+      border-radius: 0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 400;
+      color: #6f6c66;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     .case-title {
-      font-size: clamp(24px, 3vw, 36px);
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
+      font-family: var(--font-display);
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      line-height: 1.02;
+      color: var(--ink);
       margin-bottom: 28px;
     }
     .case-item { margin-bottom: 18px; }
     .case-item__lbl {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.14em;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--platinum);
       margin-bottom: 5px;
     }
-    .case-item__txt { font-size: 15px; color: var(--sub); line-height: 1.7; }
-    .case-item--result .case-item__txt { color: var(--text); font-weight: 500; }
+    .case-item__txt { font-size: 15px; color: #5f5c56; line-height: 1.7; }
+    .case-item--result .case-item__txt { color: var(--ink); font-weight: 500; }
 
     /* Cases nav */
     .cases-controls {
@@ -1939,30 +1945,30 @@
     .cases-arrow {
       width: 50px;
       height: 50px;
-      border-radius: 50%;
-      background: var(--bg-card);
-      border: 1.5px solid var(--border);
-      color: var(--text);
+      border-radius: 0;
+      background: none;
+      border: 1px solid var(--line-ink);
+      color: var(--ink);
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all var(--t);
       flex-shrink: 0;
     }
-    .cases-arrow:hover { border-color: var(--gold); background: var(--gold-d2); color: var(--gold); }
+    .cases-arrow:hover { border-color: var(--ink); background: none; color: var(--ink); }
     .cases-dots { display: flex; gap: 0; align-items: center; }
     .cdot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.18);
+      background: rgba(11,11,12,0.2);
       border: none;
       padding: 18px;
       background-clip: content-box;
       cursor: pointer;
       transition: background var(--t), transform var(--t);
     }
-    .cdot.active { background: var(--gold); background-clip: content-box; transform: scale(1.5); }
+    .cdot.active { background: var(--ink); background-clip: content-box; transform: scale(1.5); }
 
     /* ─── 8. PROCESS ────────────────────────────── */
     .process-header { margin-bottom: 56px; }
