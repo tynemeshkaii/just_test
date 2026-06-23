@@ -757,6 +757,23 @@
     };
   })();
 
+  /* ── Desktop-only craft cursor (gated, zero mobile cost) ── */
+  if (window.matchMedia('(hover:hover) and (min-width:1024px)').matches) {
+    const dot = document.createElement('div');
+    dot.className = 'ec-cursor';
+    document.body.appendChild(dot);
+    document.documentElement.classList.add('has-cursor');
+    let rx = 0, ry = 0;
+    window.addEventListener('pointermove', e => {
+      rx = e.clientX; ry = e.clientY;
+      dot.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%,-50%)';
+    }, { passive: true });
+    document.querySelectorAll('a, button, .g-card, .brief__choice').forEach(el => {
+      el.addEventListener('pointerenter', () => dot.style.transform += ' scale(2.4)');
+      el.addEventListener('pointerleave', () => { dot.style.transform = dot.style.transform.replace(' scale(2.4)', ''); });
+    });
+  }
+
   /* ── Page-specific modules injected here (catalog, standalone gallery lead) ── */
   if (typeof window.JG_pageInit === 'function') {
     window.JG_pageInit({ utmParams: utmParams, getMetaIds: getMetaIds, fmt: fmt, openLightbox: openLightbox, initBrief: initBrief });

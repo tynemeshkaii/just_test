@@ -89,6 +89,14 @@
       .reveal-img,.reveal-rule{transition:none;clip-path:none;transform:none;}
     }
 
+    /* desktop-only craft cursor (gated, zero mobile cost) */
+    @media (hover:hover) and (min-width:1024px){
+      .has-cursor{cursor:none;}
+      .ec-cursor{position:fixed;left:0;top:0;width:14px;height:14px;border:1px solid var(--platinum);
+        border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
+        transition:transform .12s var(--ease);mix-blend-mode:difference;}
+    }
+
     /* ─── Container ─────────────────────────────── */
     .wrap {
       width: 100%;
