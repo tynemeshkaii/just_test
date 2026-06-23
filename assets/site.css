@@ -135,18 +135,16 @@
       pointer-events: none;
       z-index: 0;
     }
-    .section--dark + .section--surface::before {
+    /* Same-tone neighbours get a soft fade bridge of the tone above. */
+    .section--ink + .section--ink::before {
       background: linear-gradient(to bottom, var(--ink) 0%, transparent 100%);
     }
-    .section--surface + .section--dark::before {
-      background: linear-gradient(to bottom, var(--ink-2) 0%, transparent 100%);
+    .section--bone + .section--bone::before {
+      background: linear-gradient(to bottom, var(--bone) 0%, transparent 100%);
     }
-    .section--dark + .section--dark::before {
-      background: linear-gradient(to bottom, var(--ink) 0%, transparent 100%);
-    }
-    .section--surface + .section--surface::before {
-      background: linear-gradient(to bottom, var(--ink-2) 0%, transparent 100%);
-    }
+    /* Tone change = crisp editorial boundary; the contrast IS the divider. */
+    .section--ink + .section--bone::before,
+    .section--bone + .section--ink::before { display: none; }
     .section > .wrap { position: relative; z-index: 1; }
     #cases    { contain-intrinsic-size: auto 950px; }
     #gallery  { contain-intrinsic-size: auto 1100px; }
@@ -154,57 +152,6 @@
     #faq      { contain-intrinsic-size: auto 900px; }
     #process  { contain-intrinsic-size: auto 950px; }
     @media (min-width: 768px) { .section { padding: 112px 0; } }
-    .section--dark    { background: var(--ink); }
-    .section--surface {
-      background:
-        radial-gradient(ellipse 55% 35% at 88% 12%, rgba(42,84,128,0.08) 0%, transparent 55%),
-        radial-gradient(ellipse 35% 45% at 8% 88%, rgba(var(--platinum-rgb),0.035) 0%, transparent 58%),
-        var(--ink-2);
-    }
-
-    /* ── Per-section tints: subtle color journey down the page ── */
-    #cases {
-      background:
-        radial-gradient(ellipse 60% 40% at 80% 15%, rgba(42,84,128,0.09) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 50% at 10% 85%, rgba(var(--platinum-rgb),0.04) 0%, transparent 58%),
-        var(--ink-2);
-    }
-    #gallery {
-      background:
-        radial-gradient(ellipse 50% 45% at 15% 20%, rgba(42,84,128,0.06) 0%, transparent 55%),
-        radial-gradient(ellipse 45% 35% at 85% 80%, rgba(var(--platinum-rgb),0.04) 0%, transparent 50%),
-        var(--ink);
-    }
-    #reviews {
-      background:
-        radial-gradient(ellipse 55% 40% at 75% 10%, rgba(var(--platinum-rgb),0.05) 0%, transparent 50%),
-        radial-gradient(ellipse 40% 45% at 20% 90%, rgba(42,84,128,0.07) 0%, transparent 55%),
-        var(--ink-2);
-    }
-    #details {
-      background:
-        radial-gradient(ellipse 50% 40% at 85% 25%, rgba(42,84,128,0.07) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 35% at 10% 75%, rgba(var(--platinum-rgb),0.035) 0%, transparent 50%),
-        var(--ink);
-    }
-    #why-us {
-      background:
-        radial-gradient(ellipse 45% 50% at 20% 15%, rgba(var(--platinum-rgb),0.045) 0%, transparent 50%),
-        radial-gradient(ellipse 50% 40% at 80% 85%, rgba(42,84,128,0.06) 0%, transparent 55%),
-        var(--ink);
-    }
-    #faq {
-      background:
-        radial-gradient(ellipse 50% 35% at 90% 20%, rgba(42,84,128,0.08) 0%, transparent 55%),
-        radial-gradient(ellipse 45% 45% at 5% 80%, rgba(var(--platinum-rgb),0.04) 0%, transparent 55%),
-        var(--ink-2);
-    }
-    #process {
-      background:
-        radial-gradient(ellipse 55% 40% at 30% 10%, rgba(var(--platinum-rgb),0.045) 0%, transparent 50%),
-        radial-gradient(ellipse 45% 40% at 75% 90%, rgba(42,84,128,0.07) 0%, transparent 55%),
-        var(--ink-2);
-    }
 
     .s-eyebrow {
       display: inline-flex;
@@ -685,10 +632,11 @@
     @media (min-width: 600px)  { .details-grid { grid-template-columns: repeat(2,1fr); } }
     @media (min-width: 1024px) { .details-grid { grid-template-columns: repeat(3,1fr); } }
 
+    #details { background: var(--bone); color: var(--ink); }
     .detail-card {
       background: none;
       border: 0;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--line-ink);
       border-radius: 0;
       padding: 28px 0;
       position: relative;
@@ -698,7 +646,7 @@
       font-size: clamp(30px,7vw,46px);
       font-weight: 300;
       font-style: normal;
-      color: var(--platinum);
+      color: var(--ink);
       opacity: 0.9;
       letter-spacing: -0.01em;
       line-height: 1;
@@ -710,9 +658,9 @@
       font-weight: 300;
       margin: 0 0 8px;
       line-height: 1.15;
-      color: var(--bone);
+      color: var(--ink);
     }
-    .detail-card__body  { font-size: 14px; color: var(--sub); line-height: 1.7; max-width: 46ch; }
+    .detail-card__body  { font-size: 14px; color: #5f5c56; line-height: 1.7; max-width: 46ch; }
 
     /* ─── 5. WHY CHOOSE US ──────────────────────── */
     #why-us { background: var(--ink); color: var(--bone); }
@@ -1717,9 +1665,8 @@
     }
 
     /* ─── 7. CASES ──────────────────────────────── */
-    #cases { background: var(--bone); color: var(--ink); }
-    #cases .section__eyebrow, #cases .u-label { color: #6f6c66; }
-    #cases .section__title, #cases h2 { color: var(--ink); }
+    #cases { background: var(--ink); color: var(--bone); }
+    #cases .section__title, #cases h2 { color: var(--bone); }
     .cases-header { margin-bottom: 40px; }
     .cases-outer { position: relative; overflow: hidden; }
     .cases-track {
@@ -1739,7 +1686,7 @@
     .compare {
       position: relative;
       border-radius: var(--r);
-      border: 1px solid var(--line-ink);
+      border: 1px solid var(--line);
       overflow: hidden;
       aspect-ratio: 4/3;
       cursor: col-resize;
@@ -1850,7 +1797,7 @@
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 400;
-      color: #6f6c66;
+      color: var(--grey);
       letter-spacing: 0.16em;
       text-transform: uppercase;
       margin-bottom: 16px;
@@ -1861,7 +1808,7 @@
       font-weight: 300;
       letter-spacing: -0.01em;
       line-height: 1.02;
-      color: var(--ink);
+      color: var(--bone);
       margin-bottom: 28px;
     }
     .case-item { margin-bottom: 18px; }
@@ -1874,8 +1821,8 @@
       color: var(--platinum);
       margin-bottom: 5px;
     }
-    .case-item__txt { font-size: 15px; color: #5f5c56; line-height: 1.7; }
-    .case-item--result .case-item__txt { color: var(--ink); font-weight: 500; }
+    .case-item__txt { font-size: 15px; color: var(--sub); line-height: 1.7; }
+    .case-item--result .case-item__txt { color: var(--bone); font-weight: 500; }
 
     /* Cases nav */
     .cases-controls {
@@ -1889,28 +1836,28 @@
       height: 50px;
       border-radius: 0;
       background: none;
-      border: 1px solid var(--line-ink);
-      color: var(--ink);
+      border: 1px solid var(--line);
+      color: var(--bone);
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all var(--t);
       flex-shrink: 0;
     }
-    .cases-arrow:hover { border-color: var(--ink); background: none; color: var(--ink); }
+    .cases-arrow:hover { border-color: var(--bone); background: none; color: var(--bone); }
     .cases-dots { display: flex; gap: 0; align-items: center; }
     .cdot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: rgba(11,11,12,0.2);
+      background: rgba(236,233,226,0.25);
       border: none;
       padding: 18px;
       background-clip: content-box;
       cursor: pointer;
       transition: background var(--t), transform var(--t);
     }
-    .cdot.active { background: var(--ink); background-clip: content-box; transform: scale(1.5); }
+    .cdot.active { background: var(--bone); background-clip: content-box; transform: scale(1.5); }
 
     /* ─── 8. PROCESS ────────────────────────────── */
     #process { background: var(--bone); color: var(--ink); }
