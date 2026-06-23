@@ -1917,95 +1917,63 @@
     .cdot.active { background: var(--ink); background-clip: content-box; transform: scale(1.5); }
 
     /* ─── 8. PROCESS ────────────────────────────── */
+    #process { background: var(--bone); color: var(--ink); }
     .process-header { margin-bottom: 56px; }
     .process-steps {
       position: relative;
       display: flex;
       flex-direction: column;
       gap: 0;
-      padding: 8px 0;
+      padding: 0;
     }
-    /* Vertical timeline line */
-    .process-steps::before {
-      content: '';
-      position: absolute;
-      left: 21px;
-      top: 8px;
-      bottom: 8px;
-      width: 2px;
-      background: linear-gradient(to bottom,
-        rgba(196,164,93,0.0) 0%,
-        rgba(196,164,93,0.65) 8%,
-        rgba(196,164,93,0.45) 50%,
-        rgba(196,164,93,0.65) 92%,
-        rgba(196,164,93,0.0) 100%);
-      pointer-events: none;
-    }
+    .process-steps::before { display: none; }
     .pstep {
       position: relative;
       z-index: 1;
-      background: transparent;
+      background: none;
       border: 0;
+      border-top: 1px solid var(--line-ink);
       border-radius: 0;
-      padding: 0 0 36px 60px;
-      transition: transform var(--t);
+      padding: 26px 0;
     }
-    .pstep:last-child { padding-bottom: 0; }
     .pstep__num {
-      position: absolute;
-      left: 0; top: 0;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--bg);
-      border: 2px solid rgba(196,164,93,0.45);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-serif);
-      font-size: 17px;
-      font-weight: 900;
-      font-style: italic;
-      letter-spacing: -0.02em;
-      color: var(--gold);
-      background-clip: padding-box;
-      box-shadow: 0 0 0 6px var(--bg-surface);
-      transition: border-color var(--t), box-shadow var(--t), background var(--t), color var(--t);
+      font-family: var(--font-display);
+      font-size: clamp(36px,9vw,68px);
+      font-weight: 300;
+      font-style: normal;
+      letter-spacing: -0.01em;
+      line-height: 0.8;
+      color: var(--ink);
+      display: block;
+      margin-bottom: 10px;
       user-select: none;
     }
-    .section--dark .pstep__num { box-shadow: 0 0 0 6px var(--bg); }
-    .pstep:hover .pstep__num {
-      background: var(--gold);
-      color: var(--ink);
-      border-color: var(--gold);
-      box-shadow: 0 0 0 6px var(--bg-surface), 0 0 22px -2px rgba(196,164,93,0.55);
-    }
-    .section--dark .pstep:hover .pstep__num {
-      box-shadow: 0 0 0 6px var(--bg), 0 0 22px -2px rgba(196,164,93,0.55);
-    }
     .pstep__title {
-      font-size: 17px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      line-height: 1.35;
-      padding-top: 10px;
+      font-family: var(--font-display);
+      font-size: clamp(19px,4.6vw,26px);
+      font-weight: 300;
+      margin-bottom: 6px;
+      line-height: 1.1;
+      color: var(--ink);
     }
-    .pstep__body  { font-size: 14.5px; color: var(--sub); line-height: 1.7; max-width: 560px; }
-    @media (min-width: 768px) {
-      .process-steps::before { left: 25px; }
-      .pstep { padding: 0 0 44px 76px; }
-      .pstep__num {
-        width: 52px;
-        height: 52px;
-        font-size: 19px;
-      }
-      .pstep__title { font-size: 19px; padding-top: 12px; }
-      .pstep__body  { font-size: 15.5px; }
-    }
+    .pstep__body  { font-size: 14.5px; color: #5f5c56; line-height: 1.7; max-width: 48ch; }
     .process-close { margin-top: 48px; text-align: center; }
-    .process-close__u { font-size: 15px; color: var(--sub); margin-bottom: 6px; }
-    .process-close__u strong { color: var(--text); font-weight: 700; }
-    .process-close__note { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
+    .process-close__u {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(20px,5vw,30px);
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .process-close__u strong { color: var(--ink); font-weight: 400; }
+    .process-close__note {
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 11px;
+      color: #6f6c66;
+      margin-bottom: 36px;
+    }
 
     /* ─── 9. FOOTER ─────────────────────────────── */
     .footer {
