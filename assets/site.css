@@ -1,40 +1,27 @@
 /* ─── Tokens ─────────────────────────────────── */
     :root {
-      --bg:         #0A0A09;
-      --bg-surface: #10151D;
-      --bg-card:    #1A1A18;
-      --bg-card-2:  #23231F;
-      --border:     rgba(244,238,221,0.085);
-      --bh:         rgba(244,238,221,0.16);
-      --gold:       #C9A84C;
-      --gold-h:     #E2C87E;
-      --gold-d:     rgba(201,168,76,0.10);
-      --gold-d2:    rgba(201,168,76,0.17);
-      --gold-line:  rgba(201,168,76,0.45);
-      --paper:      #F4EFE6;
-      --text:       #F7F3E8;
-      --sub:        rgba(247,243,232,0.58);
-      --muted:      rgba(247,243,232,0.34);
-      --ink:        #090806;
-      --bg-veil:    #050505;
-      --bg-panel:   #0E1218;
-      --bg-media:   #111111;
-      --bg-media-h: #20201D;
-      --bg-media-m: #151513;
-      --font:       'Inter', system-ui, -apple-system, sans-serif;
-      --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
-      --gold-grad:  linear-gradient(135deg, #C9A84C 0%, #F0D98A 48%, #C9A84C 100%);
-      --steel:      #1A3A5C;
-      --steel-h:    #2A5480;
-      --steel-d:    rgba(26,58,92,0.12);
-      --steel-d2:   rgba(26,58,92,0.22);
-      --steel-grad: linear-gradient(135deg, #1A3A5C 0%, #2E6499 50%, #1A3A5C 100%);
-      --nh:         72px;
-      --mw:         1200px;
-      --rmd:        12px;
-      --rlg:        16px;
-      --rxl:        20px;
-      --t:          0.25s ease;
+      --ink:#0B0B0C; --ink-2:#141416; --ink-3:#1C1C1E;
+      --bone:#ECE9E2; --bone-2:#DCD8CF;
+      --grey:#8A8884; --sub:rgba(236,233,226,.60); --muted:rgba(236,233,226,.34);
+      --platinum:#B7AE9C; --platinum-d:rgba(183,174,156,.14);
+      --line:rgba(236,233,226,.16); --line-ink:rgba(11,11,12,.14);
+      --text:#ECE9E2;
+      --font:'Inter',system-ui,-apple-system,sans-serif;
+      --font-display:'Fraunces',Georgia,serif;
+      --font-mono:'Space Mono',ui-monospace,monospace;
+      --r:2px;            /* near-zero radius — no rounded cards */
+      --nh:64px; --mw:1240px;
+      --t:.3s cubic-bezier(.22,1,.36,1);
+      --ease:cubic-bezier(.22,1,.36,1);
+      /* legacy aliases kept so un-migrated rules don't break mid-refactor — removed in D5.3 */
+      --bg:var(--ink); --bg-surface:var(--ink-2); --bg-card:var(--ink-2); --bg-card-2:var(--ink-3);
+      --bg-veil:var(--ink); --bg-panel:var(--ink-2); --bg-media:var(--ink-2); --bg-media-h:var(--ink-3); --bg-media-m:var(--ink-2);
+      --border:var(--line); --bh:var(--line);
+      --gold:var(--platinum); --gold-h:var(--platinum); --gold-line:var(--line);
+      --gold-d:var(--platinum-d); --gold-d2:var(--platinum-d); --gold-grad:var(--platinum);
+      --steel:var(--platinum); --steel-h:var(--platinum); --steel-d:var(--platinum-d); --steel-d2:var(--platinum-d); --steel-grad:var(--platinum);
+      --paper:var(--bone); --font-serif:var(--font-display);
+      --rmd:var(--r); --rlg:var(--r); --rxl:var(--r);
     }
 
     /* ─── Reset ─────────────────────────────────── */
@@ -42,9 +29,7 @@
     html { scroll-behavior: smooth; }
     body {
       font-family: var(--font);
-      background:
-        radial-gradient(ellipse 60% 45% at 75% -10%, rgba(196,164,93,0.055), transparent 58%),
-        var(--bg);
+      background: var(--ink);
       color: var(--text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
