@@ -80,6 +80,15 @@
     .t-quote{font-family:var(--font-display);font-weight:300;line-height:1.28;
       font-size:clamp(20px,5.5vw,32px);}
 
+    /* curtain reveal + hairline draw */
+    .reveal-img{clip-path:inset(0 0 100% 0);transition:clip-path 1s var(--ease);}
+    .reveal-img.visible{clip-path:inset(0 0 0 0);}
+    .reveal-rule{transform:scaleX(0);transform-origin:left;transition:transform .9s var(--ease);}
+    .reveal-rule.visible{transform:scaleX(1);}
+    @media (prefers-reduced-motion:reduce){
+      .reveal-img,.reveal-rule{transition:none;clip-path:none;transform:none;}
+    }
+
     /* ─── Container ─────────────────────────────── */
     .wrap {
       width: 100%;

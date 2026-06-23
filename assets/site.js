@@ -149,7 +149,7 @@
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-  document.querySelectorAll('[data-animate]').forEach(el => io.observe(el));
+  document.querySelectorAll('[data-animate], .reveal-img, .reveal-rule').forEach(el => io.observe(el));
 
   const ios = new IntersectionObserver(entries => {
     entries.forEach(e => {
