@@ -48,12 +48,19 @@ Each page (`index.html`, `dealers/index.html`) carries its own `<head>`, body HT
 
 ## Key CSS Conventions
 
+The site uses the **"Editorial Atelier"** near-mono visual system (re-skinned from the old dark+gold template). No gold, no rounded cards, no gradient fills.
+
 - **Design tokens** in `:root` — always use variables, never raw hex/values in components
-- **Font stack**: `--font` (Inter, sans) and `--font-serif` (Playfair Display, serif)
-- **Gold gradient**: `var(--gold-grad)` = `linear-gradient(135deg, #C9A84C → #F0D98A → #C9A84C)`; applied via `background-clip: text` on `<em>` tags and decorative numbers
-- **Scroll reveal**: `[data-animate]` + `.visible` class toggled by IntersectionObserver; stagger groups use `.stagger` + `.visible`
-- **Easing**: `cubic-bezier(0.22, 1, 0.36, 1)` for scroll animations; `--t: 0.25s ease` for micro-interactions
-- **Card texture**: `detail-card::before` and `choose-card::before` use pseudo-elements for shimmer/texture. Their children need `position: relative; z-index: 1` to sit above
+- **Palette**: `--ink` (#0B0B0C) / `--ink-2` / `--ink-3` dark surfaces; `--bone` (#ECE9E2) / `--bone-2` light surfaces; `--platinum` (#B7AE9C) is the single muted accent (replaces gold); `--grey`/`--sub`/`--muted` for secondary text; hairlines `--line` (on ink) and `--line-ink` (on bone)
+- **Font stack**: `--font` (Inter, sans body), `--font-display` (Fraunces, serif — weight 300 for headings/quotes/big index numerals), `--font-mono` (Space Mono, uppercase labels/eyebrows/tags)
+- **Radius**: `--r` = 2px (near-zero — no rounded cards/pills); square hairline borders everywhere
+- **Section cadence**: alternating light/dark — `#cases`/`#gallery`/`#process`/`#faq` are bone (light); hero/`#why-us`/`#details`/`#reviews`/`.cta-form`/footer are ink (dark). `.section--ink`/`.section--bone` utilities set bg+text
+- **Utilities** (after Tokens/Reset): `.u-label` (mono eyebrow), `.u-rule` (hairline), `.u-grade`/`.u-grade--soft` (image grade filter unifying photos), `.u-index` (oversized serif numeral), type scale `.t-hero`/`.t-title`/`.t-quote`
+- **Editorial motifs**: ruled rows (border-top hairline) instead of cards; big serif numerals as section index; duotone gallery (grayscale → color on hover/focus); text-link CTAs (bottom-border + `→`) instead of filled buttons
+- **Scroll reveal**: `[data-animate]` + `.visible` toggled by IntersectionObserver; stagger groups use `.stagger`. Motion add-ons `.reveal-img` (clip-path curtain) and `.reveal-rule` (scaleX hairline draw) ride the same observer; both disabled under `prefers-reduced-motion`
+- **Easing**: `--ease` / `--t` = `cubic-bezier(0.22, 1, 0.36, 1)`
+- **Desktop craft**: custom `.ec-cursor` ring attached only inside `(hover:hover) and (min-width:1024px)` (zero mobile cost)
+- **Legacy note**: the `.btn-gold` class name persists in markup but now renders as a bone/platinum editorial primary button (no gold)
 
 ## JavaScript Modules
 
