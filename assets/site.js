@@ -391,62 +391,157 @@
   });
 
   /* ── Page lead form ──────────────────── */
-  (function () {
-    const form    = document.getElementById('page-lead-form');
-    const submit  = document.getElementById('plf-submit');
-    const success = document.getElementById('plf-success');
-    if (!form) return;
+  /* ── Multi-step qualifying brief (shared engine) ── */
+  function budgetValue(b) {
+    if (!b) return null;
+    if (b.indexOf('5,000+') > -1) return 6000;
+    if (b.indexOf('3,000') > -1 && b.indexOf('5,000') > -1) return 4000;
+    if (b.indexOf('1,500') > -1) return 2250;
+    return null;
+  }
+
+  function initBrief(root) {
+    if (!root || root.dataset.briefReady) return null;
+    root.dataset.briefReady = '1';
+
+    var id        = root.id || ('brief-' + Math.random().toString(36).slice(2));
+    var form      = root.querySelector('.brief__form');
+    var steps     = [].slice.call(root.querySelectorAll('.brief__step'));
+    var backBtn   = root.querySelector('.brief__back');
+    var nextBtn   = root.querySelector('.brief__next');
+    var submitBtn = root.querySelector('.brief__submit');
+    var bar       = root.querySelector('.brief__progress-bar');
+    var curEl     = root.querySelector('.brief__cur');
+    var success   = root.querySelector('.brief__success');
+    var source    = root.dataset.briefSource || 'brief';
+    var total     = steps.length;
+    var cur       = 0;
+    var extra     = {};   /* prefill: livery / product / brand / car */
+
+    if (!form || !total) return null;
+
+    /* unique radio group names per instance (same-name radios collide across DOM) */
+    [].forEach.call(root.querySelectorAll('.brief__choices'), function (group) {
+      var nm = (group.dataset.choice || 'opt') + '-' + id;
+      [].forEach.call(group.querySelectorAll('input[type=radio]'), function (r) { r.name = nm; });
+    });
+
+    function render() {
+      steps.forEach(function (s, i) { s.classList.toggle('is-active', i === cur); });
+      if (bar)   bar.style.width = ((cur + 1) / total * 100) + '%';
+      if (curEl) curEl.textContent = (cur + 1);
+      if (backBtn)   backBtn.hidden = cur === 0;
+      var last = cur === total - 1;
+      if (nextBtn)   nextBtn.hidden = last;
+      if (submitBtn) submitBtn.hidden = !last;
+      var first = steps[cur].querySelector('input:not([type=radio]), textarea, select') ||
+                  steps[cur].querySelector('input[type=radio]');
+      if (first) setTimeout(function () { try { first.focus({ preventScroll: true }); } catch (e) { first.focus(); } }, 60);
+    }
+
+    function validateStep(i) {
+      var ok = true, step = steps[i];
+      [].forEach.call(step.querySelectorAll('input[required]:not([type=radio]), textarea[required]'), function (f) {
+        f.classList.remove('has-error');
+        if (!f.value.trim()) { f.classList.add('has-error'); ok = false; }
+      });
+      [].forEach.call(step.querySelectorAll('.brief__choices[data-required]'), function (group) {
+        group.classList.remove('has-error');
+        if (!group.querySelector('input[type=radio]:checked')) { group.classList.add('has-error'); ok = false; }
+      });
+      return ok;
+    }
+
+    function choiceVal(name) {
+      var g = root.querySelector('.brief__choices[data-choice="' + name + '"]');
+      var c = g && g.querySelector('input[type=radio]:checked');
+      return c ? c.value : '';
+    }
+    function fieldVal(name) {
+      var el = root.querySelector('[data-field="' + name + '"]');
+      return el ? el.value.trim() : '';
+    }
+
+    if (nextBtn) nextBtn.addEventListener('click', function () {
+      if (validateStep(cur) && cur < total - 1) { cur++; render(); }
+    });
+    if (backBtn) backBtn.addEventListener('click', function () {
+      if (cur > 0) { cur--; render(); }
+    });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      const name  = document.getElementById('plf-name');
-      const phone = document.getElementById('plf-phone');
-      const car   = document.getElementById('plf-car');
-      let valid = true;
+      if (!validateStep(cur)) return;
+      submitBtn.disabled = true;
+      submitBtn.classList.add('loading');
 
-      [name, phone].forEach(function (f) {
-        f.classList.remove('has-error');
-        if (!f.value.trim()) { f.classList.add('has-error'); valid = false; }
-      });
-      if (!valid) return;
-
-      submit.disabled = true;
-      submit.classList.add('loading');
-
-      const meta2 = getMetaIds();
-      const payload = {
-        name: name.value.trim(),
-        phone: phone.value.trim(),
-        car: car.value.trim() || 'Not specified',
-        source: 'page_lead_form',
+      var meta   = getMetaIds();
+      var car    = [fieldVal('make'), fieldVal('model'), fieldVal('year')].filter(Boolean).join(' ');
+      var budget = choiceVal('budget');
+      var bv     = budgetValue(budget);
+      var payload = {
+        name: fieldVal('name'),
+        phone: fieldVal('phone'),
+        car: car || extra.car || 'Not specified',
+        source: source,
         utm: utmParams,
-        fbc: meta2.fbc,
-        fbp: meta2.fbp,
-        externalId: meta2.externalId,
-        eventID: meta2.eventID
+        fbc: meta.fbc, fbp: meta.fbp, externalId: meta.externalId, eventID: meta.eventID
       };
+      var vision = choiceVal('vision');
+      if (vision)        payload.vision = vision;
+      if (budget)        payload.budget = budget;
+      if (bv != null)    payload.budgetValue = bv;
+      if (extra.livery)  payload.livery = extra.livery;
+      if (extra.product) payload.product = extra.product;
+      if (extra.brand)   payload.brand = extra.brand;
 
-      function onPageSuccess() {
-        submit.disabled = false;
-        submit.classList.remove('loading');
+      function done() {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
         form.style.display = 'none';
-        form.closest('.cta-form__card').querySelector('.cta-form__privacy').style.display = 'none';
-        success.classList.add('is-visible');
-        form.reset();
-        if (typeof fbq === 'function') fbq('track', 'Lead', {}, { eventID: meta2.eventID });
+        if (success) success.classList.add('is-visible');
+        if (typeof fbq === 'function') {
+          fbq('track', 'Lead', bv != null ? { value: bv, currency: 'AED' } : {}, { eventID: meta.eventID });
+        }
       }
-
       fetch('https://leads.just-graphics.art/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
-      }).then(onPageSuccess).catch(function() {
-        submit.disabled = false;
-        submit.classList.remove('loading');
+      }).then(done).catch(function () {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
         alert('Something went wrong. Please try again or call us at +971 50 533 5004.');
       });
     });
-  })();
+
+    render();
+
+    return {
+      el: root,
+      reset: function () {
+        cur = 0; extra = {};
+        form.reset(); form.style.display = '';
+        if (success) success.classList.remove('is-visible');
+        [].forEach.call(root.querySelectorAll('.has-error'), function (el) { el.classList.remove('has-error'); });
+        render();
+      },
+      prefill: function (obj) {
+        extra = obj || {};
+        if (obj && obj.make) { var m = root.querySelector('[data-field=make]'); if (m) m.value = obj.make; }
+        if (obj && obj.vision) {
+          var g = root.querySelector('.brief__choices[data-choice=vision]');
+          var r = g && g.querySelector('input[value="' + obj.vision + '"]');
+          if (r) r.checked = true;
+        }
+      },
+      goTo: function (i) { cur = Math.max(0, Math.min(total - 1, i)); render(); }
+    };
+  }
+
+  /* page brief (shared markup in #get-quote on both pages) */
+  var pageBriefEl = document.getElementById('page-brief');
+  if (pageBriefEl) initBrief(pageBriefEl);
 
   /* ── Sticky mobile CTA bar ─────────── */
   (function () {
@@ -664,7 +759,7 @@
 
   /* ── Page-specific modules injected here (catalog, standalone gallery lead) ── */
   if (typeof window.JG_pageInit === 'function') {
-    window.JG_pageInit({ utmParams: utmParams, getMetaIds: getMetaIds, fmt: fmt, openLightbox: openLightbox });
+    window.JG_pageInit({ utmParams: utmParams, getMetaIds: getMetaIds, fmt: fmt, openLightbox: openLightbox, initBrief: initBrief });
   }
   }; /* end initApp */
 

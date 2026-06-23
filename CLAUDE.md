@@ -68,21 +68,21 @@ Each page (`index.html`, `dealers/index.html`) carries its own `<head>`, body HT
 - **Reviews slider** — carousel with expand/collapse review panel, keyboard nav, touch swipe
 - **Before/After compare** — mouse + touch drag sets `clip-path: inset(...)` on `.compare__after`; one-time hint nudge on viewport entry
 - **FAQ accordion** — `aria-expanded` + `max-height` transition on `.faq-a-wrap`
-- **Page lead form** (`#page-lead-form`) — POSTs to the Worker (see below)
+- **Multi-step qualifying brief** (`initBrief`) — reusable 4-step lead engine (1 car make/model/year · 2 vision · 3 **budget** qualifier · 4 contact). Drives any `.brief` root: scopes radio groups per instance, step validation + progress bar, builds payload (`car`, `vision`, `budget`, `budgetValue`, optional `livery`/`product`/`brand`), POSTs to the Worker, fires Meta `Lead` with `value`/`currency` from budget. Returns `{reset, prefill, goTo}`. The page brief (`#page-brief`, in `#get-quote`) is auto-inited here; `initBrief` is exposed on `ctx` for the page-specific catalog/gallery briefs. **Replaced the old single `#page-lead-form` / `#lead-form` / `#lead-form-sa`.**
 - **Sticky mobile CTA bar**
 - **Data-event Pixel helper** — fires Meta events with `eventID` (for pixel/CAPI dedup) and `external_id`
 
 **Page-specific modules** live in each page's inline `window.JG_pageInit = function(ctx){…}` block (they alias `utmParams`/`getMetaIds`/`fmt` off `ctx`). These differ between the two pages and must NOT be moved into `site.js`:
 
-- **Catalog modal** — `#catalog-modal` full catalog with filters, focus trap; opened by `#g-viewall`; contains an inline lead form panel (`#lead-form`). index = racing liveries (`DATA` with size/number/price); dealers = brand/platform filters, brand chips, Porsche sub-filter, `DATA` with a brand field.
-- **Gallery standalone lead form** (`#lead-form-sa`) — POSTs to the Worker.
+- **Catalog modal** — `#catalog-modal` full catalog with filters, focus trap; opened by `#g-viewall`; its slide-in lead panel (`#lead-panel`) hosts a multi-step brief instance (`#catalog-brief`, inited via `ctx.initBrief`, pre-filled with the picked item's livery/brand/product + vision). index = racing liveries (`DATA` with size/number/price); dealers = brand/platform filters, brand chips, Porsche sub-filter, `DATA` with a brand field.
+- **Gallery standalone brief** — gallery item click opens `#lead-panel-standalone` hosting a brief instance (`#gallery-brief`, `ctx.initBrief`, pre-filled with the picked style).
 
 ## Lead Submission — Cloudflare Worker (`worker/`)
 
 `worker/src/index.js` (deployed as `just-graphics-leads`, fronted at `https://leads.just-graphics.art/submit`). The site POSTs JSON; the Worker:
 
 - **`event: 'WhatsAppClick'`** → fires Meta CAPI `Contact` event only
-- **Lead payload** (`name`, `phone`, `car`, `livery`, `source`, `utm`, plus `fbc`/`fbp`/`externalId`/`eventID`) → in parallel (`Promise.allSettled`): creates a **Bitrix24 CRM lead** (`crm.lead.add`, maps UTM fields) and fires Meta CAPI `Lead`. `name`+`phone` required.
+- **Lead payload** (`name`, `phone`, `car`, `livery`, `source`, `utm`, plus `fbc`/`fbp`/`externalId`/`eventID`; multi-step brief also sends `vision`, `budget`, `budgetValue`, and on dealers `brand`/`product`) → in parallel (`Promise.allSettled`): creates a **Bitrix24 CRM lead** (`crm.lead.add`, maps UTM fields; `vision`/`budget`/`coverage` appended to `COMMENTS`; `budget` also maps to a dedicated CRM field if `BITRIX_BUDGET_FIELD` env var is set) and fires Meta CAPI `Lead` (with `custom_data.value`+`currency: AED` from `budgetValue` for value-based optimization). `name`+`phone` required.
 - Meta CAPI: hashes `ph`/`fn`/`external_id` with SHA-256, passes through `fbc`/`fbp`/`event_id` for pixel dedup, sends to Graph API v21.0.
 
 Config in `worker/wrangler.toml` — `[vars]` `PIXEL_ID` + `BITRIX_URL`; `META_CAPI_TOKEN` is a secret (`wrangler secret put META_CAPI_TOKEN`). CORS is locked to `https://just-graphics.art`. Deploy with `wrangler deploy` from `worker/`.

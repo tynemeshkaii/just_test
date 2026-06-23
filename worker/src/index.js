@@ -29,7 +29,8 @@ export default {
         return Response.json({ ok: true, capi: 'sent' }, { headers: CORS_HEADERS });
       }
 
-      const { name, phone, car, livery, source, utm, brand, product } = data;
+      const { name, phone, car, livery, source, utm, brand, product, budget, vision, coverage } = data;
+      const budgetValue = Number(data.budgetValue) || 0;
 
       if (!name || !phone) {
         return Response.json({ ok: false, error: 'Name and phone required' }, { status: 400, headers: CORS_HEADERS });
@@ -51,12 +52,15 @@ export default {
         isDealer ? `Brand: ${brand || 'Not specified'}` : null,
         isDealer ? `Product: ${product}` : null,
         (!isDealer && livery && livery !== 'Not specified') ? `Livery: Racing Livery #${livery}` : null,
+        vision ? `Vision: ${vision}` : null,
+        budget ? `Budget: ${budget}` : null,
+        coverage ? `Coverage: ${coverage}` : null,
         `Source: ${source || 'website'}`,
       ].filter(Boolean).join('\n');
 
       const [bitrixResult, capiResult] = await Promise.allSettled([
-        sendToBitrix(env, { title, name, phone, comments, utm }),
-        sendToMetaCAPI(env, request, { eventName: 'Lead', name, phone, source, fbc: data.fbc, fbp: data.fbp, externalId: data.externalId, eventID: data.eventID }),
+        sendToBitrix(env, { title, name, phone, comments, utm, budget }),
+        sendToMetaCAPI(env, request, { eventName: 'Lead', name, phone, source, value: budgetValue, fbc: data.fbc, fbp: data.fbp, externalId: data.externalId, eventID: data.eventID }),
       ]);
 
       return Response.json({
@@ -71,7 +75,7 @@ export default {
   }
 };
 
-async function sendToBitrix(env, { title, name, phone, comments, utm }) {
+async function sendToBitrix(env, { title, name, phone, comments, utm, budget }) {
   const fields = {
     TITLE: title,
     NAME: name,
@@ -79,6 +83,12 @@ async function sendToBitrix(env, { title, name, phone, comments, utm }) {
     COMMENTS: comments,
     SOURCE_ID: 'WEB',
   };
+
+  // Optional: map budget tier to a dedicated CRM field when configured (e.g. UF_CRM_XXX).
+  // Set BITRIX_BUDGET_FIELD in wrangler.toml [vars] to enable; otherwise budget stays in COMMENTS.
+  if (budget && env.BITRIX_BUDGET_FIELD) {
+    fields[env.BITRIX_BUDGET_FIELD] = budget;
+  }
 
   if (utm && Object.keys(utm).length) {
     fields.UTM_SOURCE = utm.utm_source || '';
@@ -96,7 +106,7 @@ async function sendToBitrix(env, { title, name, phone, comments, utm }) {
   return resp.json();
 }
 
-async function sendToMetaCAPI(env, request, { eventName, name, phone, source, fbc, fbp, externalId, eventID }) {
+async function sendToMetaCAPI(env, request, { eventName, name, phone, source, value, fbc, fbp, externalId, eventID }) {
   const userData = {
     client_ip_address: request.headers.get('CF-Connecting-IP'),
     client_user_agent: request.headers.get('User-Agent'),
@@ -118,6 +128,11 @@ async function sendToMetaCAPI(env, request, { eventName, name, phone, source, fb
       lead_source: source || 'website',
     },
   };
+
+  if (value && value > 0) {
+    eventData.custom_data.value = value;
+    eventData.custom_data.currency = 'AED';
+  }
 
   if (eventID) eventData.event_id = eventID;
 
