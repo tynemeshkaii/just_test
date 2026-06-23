@@ -46,6 +46,40 @@
       html { scroll-behavior: auto; }
     }
 
+    /* ─── Editorial utilities ─── */
+    .u-mono{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.16em;}
+    .u-label{font-family:var(--font-mono);font-size:clamp(10px,2.6vw,11px);letter-spacing:.16em;
+      text-transform:uppercase;color:var(--grey);}
+    .u-display{font-family:var(--font-display);font-weight:300;letter-spacing:-.01em;line-height:1.0;}
+    .u-rule{height:1px;background:var(--line);border:0;width:100%;}
+    .section--ink   .u-rule{background:var(--line);}
+    .section--bone  .u-rule{background:var(--line-ink);}
+
+    /* section light/dark cadence */
+    .section--ink { background:var(--ink);  color:var(--bone); }
+    .section--bone{ background:var(--bone); color:var(--ink);  }
+    .section--bone .u-label{color:#6f6c66;}
+
+    /* image grade — unify existing photos */
+    .u-grade{filter:grayscale(.12) contrast(1.06) brightness(.9) saturate(.92);}
+    .u-grade--soft{filter:grayscale(.08) contrast(1.04);}
+
+    /* film grain overlay (cheap, GPU) */
+    .u-grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+    /* oversized numbered index */
+    .u-index{font-family:var(--font-display);font-weight:300;line-height:.8;
+      font-size:clamp(40px,12vw,120px);color:currentColor;opacity:.9;}
+
+    /* type scale */
+    .t-hero{font-family:var(--font-display);font-weight:300;line-height:.98;letter-spacing:-.015em;
+      font-size:clamp(38px,11vw,92px);}
+    .t-title{font-family:var(--font-display);font-weight:300;line-height:1.02;letter-spacing:-.01em;
+      font-size:clamp(28px,7vw,56px);}
+    .t-quote{font-family:var(--font-display);font-weight:300;line-height:1.28;
+      font-size:clamp(20px,5.5vw,32px);}
+
     /* ─── Container ─────────────────────────────── */
     .wrap {
       width: 100%;
